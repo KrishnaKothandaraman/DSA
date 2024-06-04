@@ -1,13 +1,14 @@
 from typing import Tuple, List
 from collections import deque
-class BTree:
+
+class GenericBinaryTree:
     # TODO: Build tree visualizer
 
     def __init__(self, value, parent=None, left=None, right=None):
         self.value: int    = value
         self.parent   = parent
-        self.left: BTree     = left
-        self.right: BTree    = right
+        self.left: GenericBinaryTree  = left
+        self.right: GenericBinaryTree = right
         self.diameter = 0
         self._SPACECOUNT = 10
 
@@ -32,7 +33,7 @@ class BTree:
             if config['id'] in bTreeNodeMapping:
                 raise Exception("Non unique BTree id ", config['id'])
 
-            node = BTree(config['value'])
+            node = GenericBinaryTree(config['value'])
             bTreeNodeMapping[config['id']] = node
         try:
             for config in configs['nodes']:
@@ -93,8 +94,6 @@ if __name__ == "__main__":
             ],
             "root": "1"
         }
-    tree: BTree = BTree.loadTreeFromConfig(configs)
+    tree: GenericBinaryTree = GenericBinaryTree.loadTreeFromConfig(configs)
 
-    print(tree.inOrderTraversal([]))
-    print(tree.getOffsetFromRoot(0,0))
     tree.printTree(0)
