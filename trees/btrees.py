@@ -1,6 +1,7 @@
 from typing import Tuple, List
-
+from collections import deque
 class BTree:
+    # TODO: Build tree visualizer
 
     def __init__(self, value, parent=None, left=None, right=None):
         self.value: int    = value
@@ -8,6 +9,7 @@ class BTree:
         self.left: BTree     = left
         self.right: BTree    = right
         self.diameter = 0
+        self._SPACECOUNT = 10
 
     def getOffsetFromRoot(self, curLeftOffset, curRightOffset) -> Tuple[int, int]:
 
@@ -55,8 +57,28 @@ class BTree:
         aggregator += [self.value]
         if self.right:
             self.right.inOrderTraversal(aggregator)
-        return aggregator
+        return aggregator                
+
+    def printTree(self, space):
     
+        # Increase distance between levels
+        space += self._SPACECOUNT
+    
+        if self.right:
+            self.right.printTree(space)
+    
+        # Print current node after space
+        # count
+        print()
+        for i in range(self._SPACECOUNT, space):
+            print(end=" ")
+        print(self.value)
+
+        if self.left:
+            self.left.printTree(space)
+
+
+
 if __name__ == "__main__":
     configs = {
         "nodes": [
@@ -65,7 +87,9 @@ if __name__ == "__main__":
             {"id": "3", "left": None, "parent": "1", "right": None, "value": 3},
             {"id": "4", "left": "6", "parent": "2", "right": None, "value": 4},
             {"id": "5", "left": None, "parent": "2", "right": None, "value": 5},
-            {"id": "6", "left": None, "parent": "4", "right": None, "value": 6}
+            {"id": "6", "left": None, "parent": "4", "right": None, "value": 6},
+            {"id": "7", "left": None, "parent": "3", "right": None, "value": 7},
+            {"id": "8", "left": None, "parent": "4", "right": None, "value": 8}
             ],
             "root": "1"
         }
@@ -73,3 +97,4 @@ if __name__ == "__main__":
 
     print(tree.inOrderTraversal([]))
     print(tree.getOffsetFromRoot(0,0))
+    tree.printTree(0)
